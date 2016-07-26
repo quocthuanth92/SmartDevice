@@ -9,6 +9,7 @@ using System.Web;
 using ProgramAnalysis.Helper;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
+using LocalAccountsApp.Gateway;
 
 namespace ProgramAnalysis.Gateway
 {
@@ -16,7 +17,6 @@ namespace ProgramAnalysis.Gateway
     {
         public MqttClient client;
         public Timer TimerTick;
-
         public void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             try
@@ -24,24 +24,18 @@ namespace ProgramAnalysis.Gateway
                 string log = Helper.Helper.ByteToString(e.Message);
                 string clientID = (string)Helper.Helper.GetPropertyValue(sender, "ClientId");
                 bool isConnected = (bool)Helper.Helper.GetPropertyValue(sender, "IsConnected");
-
                 List<string> topicList = e.Topic.Split(new char[] { '/' }).ToList();
                 if (topicList.Count >= 3)
                 {
-                    if (topicList[0].ToString() == "info")
+                    if (topicList[2].ToString() == ConstParam.TypeTopic.Periodic.ToString())
                     {
-                        string strThietBiID = topicList[2].ToString();
-                        ModelMess modelMess = Helper.Helper.ParseMessToModel(e.Message.ToList());
-                        log += Environment.NewLine + modelMess.WriteByteLog();
-                        ThietBiStatusMess TbMess = Helper.Helper.ParseMessToValue(modelMess, strThietBiID);
-                        if (!string.IsNullOrEmpty(strThietBiID))
-                        {
-                            //using (DeviceTrackingDataContext Context = new DeviceTrackingDataContext())
-                            //{
-                            //    Context.UpdateThieBiSatusMess(strThietBiID, TbMess.CommandType, TbMess.CommandId, TbMess.CommandAction, TbMess.Loai, TbMess.StatusMay, TbMess.Time, TbMess.TrangThai, TbMess.Latitude, TbMess.Longitude);
-                            //}
-                            //log += Environment.NewLine + TbMess.WriteLog();
-                        }
+                        string houseCode = topicList[0].ToString();
+                        string device = topicList[1].ToString();
+                        MessModel messModel = Helper.Helper.ParseToMessModel(e.Message.ToList());
+                    }
+                    else if (topicList[2].ToString() == ConstParam.TypeTopic.Action.ToString())
+                    {
+
                     }
                 }
                 CustomLog.LogDevice(log);
@@ -70,7 +64,7 @@ namespace ProgramAnalysis.Gateway
 
         public Gateway()
         {
-            int interval = 600000;
+            int interval = 60000;
             if(!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TimePingInterval"].ToString())){
                 Int32.Parse(ConfigurationManager.AppSettings["TimePingInterval"].ToString());
             }
@@ -263,30 +257,5 @@ namespace ProgramAnalysis.Gateway
             return result;
         }
     }
-    public static class ConstParam
-    {
-        public static byte[] DinhKyGPS = new byte[] { 0x03, 0x01, 0x02 };
-        public static byte[] BaoDuong = new byte[] { 0x03, 0x01, 0x0A };
-        public static byte[] DiChuyen = new byte[] { 0x03, 0x01, 0x0B };
-        public static byte[] Khoan = new byte[] { 0x03, 0x01, 0x0C };
-        public static byte[] Cau = new byte[] { 0x03, 0x01, 0x0D };
-        public static byte[] HoatDong = new byte[] { 0x03, 0x01, 0x0E };
-        public static byte[] NoMay = new byte[] { 0x05, 0x01, 0x00 };
-        public static byte[] TatMay = new byte[] { 0x05, 0x01, 0x01 };
-
-        public static byte[] Dang = new byte[] { 0x06, 0x01, 0x00 };
-        public static byte[] Khong = new byte[] { 0x06, 0x01, 0x01 };
-
-        public static byte[] DangBaoDuong = new byte[] { 0x06, 0x01, 0x00 };
-        public static byte[] KoBaoDuong = new byte[] { 0x06, 0x01, 0x01 };
-        public static byte[] DangDiChuyen = new byte[] { 0x07, 0x01, 0x00 };
-        public static byte[] KoDiChuyen = new byte[] { 0x07, 0x01, 0x01 };
-        public static byte[] DangKhoan = new byte[] { 0x08, 0x01, 0x00 };
-        public static byte[] KoKhoan = new byte[] { 0x08, 0x01, 0x01 };
-        public static byte[] DangCau = new byte[] { 0x09, 0x01, 0x00 };
-        public static byte[] KoCau = new byte[] { 0x09, 0x01, 0x01 };
-
-        public static byte[] Value = new byte[] { 0x1F, 0x21, 0x18 };
-
-    }
+    
 }

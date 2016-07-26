@@ -1,4 +1,5 @@
-﻿using ProgramAnalysis.Gateway;
+﻿using LocalAccountsApp.Gateway;
+using ProgramAnalysis.Gateway;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -309,7 +310,27 @@ namespace ProgramAnalysis.Helper
             string text = hex.Replace("-", "");
             return text;
         }
-	}
+
+        #region MessModel
+        public static MessModel ParseToMessModel(List<byte> data)
+        {
+            MessModel messModel = new MessModel();
+            if (data != null)
+            {
+                if (data[0] == 0x01)
+                {
+                    messModel.CommandType = data.Skip(0).Take(2).ToList();
+                    messModel.Type = data.Skip(2).Take(2).ToList();
+                    messModel.GPSByte = data.Skip(4).ToList();
+                }
+            }
+            return messModel;
+        }
+        #endregion
+
+
+
+    }
     public class Location
     {
         public double Latitude { get; set; }
