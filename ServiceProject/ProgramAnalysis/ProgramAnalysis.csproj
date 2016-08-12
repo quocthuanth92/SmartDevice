@@ -196,6 +196,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Filters\RequireHttpsAttribute.cs" />
     <Compile Include="Gateway\Gateway.cs" />
+    <Compile Include="Gateway\MessModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

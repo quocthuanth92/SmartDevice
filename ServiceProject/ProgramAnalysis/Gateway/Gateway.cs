@@ -9,7 +9,6 @@ using System.Web;
 using ProgramAnalysis.Helper;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
-using LocalAccountsApp.Gateway;
 
 namespace ProgramAnalysis.Gateway
 {
