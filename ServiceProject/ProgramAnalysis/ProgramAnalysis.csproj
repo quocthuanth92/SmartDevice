@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -2578,6 +2579,7 @@
     <Content Include="Views\Home\View1.cshtml" />
     <Content Include="Views\Home\XuLy.cshtml" />
     <Content Include="Views\Shared\_KAdminLayout.cshtml" />
+    <Content Include="Views\Home\DeviceManager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

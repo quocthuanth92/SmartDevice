@@ -39,6 +39,8 @@ namespace ProgramAnalysis.Gateway
                             string houseCode = topicList[0].ToString();
                             string device = topicList[1].ToString();
                             MessModel messModel = Helper.Helper.ParseToMessModel(e.Message.ToList());
+
+
                         }
                         else if (topicList[2].ToString() == ConstParam.TypeTopic.Action.ToString())
                         {

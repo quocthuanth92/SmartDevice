@@ -16,6 +16,11 @@ namespace ProgramAnalysis.Controllers
             return View();
         }
 
+        public ActionResult DeviceManager()
+        {
+            return View();
+        }
+
         public ActionResult TestAuthention()
         {
             return View();
