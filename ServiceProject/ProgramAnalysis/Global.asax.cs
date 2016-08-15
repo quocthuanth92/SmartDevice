@@ -30,18 +30,20 @@ namespace ProgramAnalysis
 
             #region Config
             Gateway.Gateway gateway = new Gateway.Gateway();
-            gateway.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
-            clientID = "0000000AAAAAAAA";
-            gateway.client.Connect(clientID);
-            CustomLog.LogError("connect thanh cong");
-            string[] topic = { "#", "Test/#" };
+            gateway.ConfigConnect();
 
-            byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE };
-            gateway.client.Subscribe(topic, qosLevels);
+            //gateway.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
+            //clientID = "0000000AAAAAAAA";
+            //gateway.client.Connect(clientID);
+            //CustomLog.LogError("connect thanh cong");
+            //string[] topic = { "#", "Test/#" };
 
-            gateway.client.MqttMsgPublishReceived += gateway.client_MqttMsgPublishReceived;
-            gateway.client.MqttMsgSubscribed += gateway.client_MqttMsgSubscribed;
-            gateway.client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
+            //byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE };
+            //gateway.client.Subscribe(topic, qosLevels);
+
+            //gateway.client.MqttMsgPublishReceived += gateway.client_MqttMsgPublishReceived;
+            //gateway.client.MqttMsgSubscribed += gateway.client_MqttMsgSubscribed;
+            //gateway.client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
 
             gateway.TimerTick.Start();
             #endregion

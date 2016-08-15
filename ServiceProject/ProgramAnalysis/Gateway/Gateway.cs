@@ -14,6 +14,7 @@ namespace ProgramAnalysis.Gateway
 {
     public class Gateway
     {
+        public string clientID = "0000000AAAAAAAA";
         public MqttClient client;
         public Timer TimerTick;
         public void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
@@ -23,21 +24,30 @@ namespace ProgramAnalysis.Gateway
                 string log = Helper.Helper.ByteToString(e.Message);
                 string clientID = (string)Helper.Helper.GetPropertyValue(sender, "ClientId");
                 bool isConnected = (bool)Helper.Helper.GetPropertyValue(sender, "IsConnected");
-                List<string> topicList = e.Topic.Split(new char[] { '/' }).ToList();
-                if (topicList.Count >= 3)
-                {
-                    if (topicList[2].ToString() == ConstParam.TypeTopic.Periodic.ToString())
-                    {
-                        string houseCode = topicList[0].ToString();
-                        string device = topicList[1].ToString();
-                        MessModel messModel = Helper.Helper.ParseToMessModel(e.Message.ToList());
-                    }
-                    else if (topicList[2].ToString() == ConstParam.TypeTopic.Action.ToString())
-                    {
 
-                    }
+                if(e.Topic == ConstParam.PrefixTopic.Ping.ToString())
+                {
+                    CustomLog.LogPing(Encoding.UTF8.GetString(e.Message));
                 }
-                CustomLog.LogDevice(log);
+                else
+                {
+                    List<string> topicList = e.Topic.Split(new char[] { '/' }).ToList();
+                    if (topicList.Count >= 3)
+                    {
+                        if (topicList[2].ToString() == ConstParam.TypeTopic.Periodic.ToString())
+                        {
+                            string houseCode = topicList[0].ToString();
+                            string device = topicList[1].ToString();
+                            MessModel messModel = Helper.Helper.ParseToMessModel(e.Message.ToList());
+                        }
+                        else if (topicList[2].ToString() == ConstParam.TypeTopic.Action.ToString())
+                        {
+
+                        }
+                    }
+                    CustomLog.LogDevice(log);
+
+                }
             }
             catch (Exception ex)
             {
@@ -61,6 +71,22 @@ namespace ProgramAnalysis.Gateway
             CustomLog.LogError(result);
         }
 
+        public void ConfigConnect()
+        {
+            this.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
+            this.client.Connect(clientID);
+            CustomLog.LogError("connect thanh cong");
+            string[] topic = { "#", "Test/#" };
+
+            byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE };
+            this.client.Subscribe(topic, qosLevels);
+
+            this.client.MqttMsgPublishReceived += this.client_MqttMsgPublishReceived;
+            this.client.MqttMsgSubscribed += this.client_MqttMsgSubscribed;
+            //gateway.client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
+        }
+
+
         public Gateway()
         {
             int interval = 60000;
@@ -79,23 +105,12 @@ namespace ProgramAnalysis.Gateway
                 if (this.client.IsConnected)
                 {
                     byte[] ping = new byte[] { 0x03, 0x01, 0x01 };
-                    this.client.Publish("ping", Encoding.UTF8.GetBytes("ping"));
+                    this.client.Publish(ConstParam.PrefixTopic.Ping.ToString(), Encoding.UTF8.GetBytes("ping"));
                 }
                 else
                 {
                     #region Config
-                    this.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
-                    string clientID = "1111AAAA";
-                    this.client.Connect(clientID);
-                    CustomLog.LogError("reconnect thanh cong");
-                    string[] topic = { "#", "Test/#" };
-
-                    byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE };
-                    this.client.Subscribe(topic, qosLevels);
-
-                    this.client.MqttMsgPublishReceived += this.client_MqttMsgPublishReceived;
-                    this.client.MqttMsgSubscribed += this.client_MqttMsgSubscribed;
-                    this.client.MqttMsgUnsubscribed += this.client_MqttMsgUnsubscribed;
+                    this.ConfigConnect()
                     #endregion
                 }
             }

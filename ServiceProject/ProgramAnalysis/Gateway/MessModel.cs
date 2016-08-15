@@ -89,7 +89,15 @@ namespace ProgramAnalysis.Gateway
             Line
         }
 
-
+        #region Topic
+        public enum PrefixTopic
+        {
+            Ping,
+            Info,
+            Action,
+            Mess
+        }
+        #endregion
 
 
 
