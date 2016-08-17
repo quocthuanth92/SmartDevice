@@ -112,7 +112,7 @@ namespace ProgramAnalysis.Gateway
                 else
                 {
                     #region Config
-                    this.ConfigConnect()
+                    this.ConfigConnect();
                     #endregion
                 }
             }
