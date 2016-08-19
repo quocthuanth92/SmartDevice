@@ -72,15 +72,14 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   Serial.println();
 
-  // Switch on the LED if an 1 was received as first character
-  if ((char)payload[0] == '1') {
-    digitalWrite(BUILTIN_LED, LOW);   // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because
+  if (payload[5] == 0x00) {
+    // Gọi mở Rơ le ở đây
+    digitalWrite(BUILTIN_LED, LOW);   
     // it is acive low on the ESP-01)
   } else {
+    // Gọi đóng Rơ le ở đây
     digitalWrite(BUILTIN_LED, HIGH);  // Turn the LED off by making the voltage HIGH
   }
-
 }
 
 void reconnect() {
@@ -91,7 +90,7 @@ void reconnect() {
     if (client.connect("ESP8266Client")) {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("Ping", "hello world");
+      client.publish("PingTest", "DeviceTest1");
       // ... and resubscribe
       client.subscribe("Home/" DEVICEID "/Periodic");
     } else {
