@@ -351,7 +351,6 @@ namespace ProgramAnalysis.Helper
                 if (data[0] == 0x01)
                 {
                     messModel.CommandType = data.Skip(0).Take(2).ToList();
-                    messModel.Type = data.Skip(2).Take(2).ToList();
                     messModel.Value = data.Skip(2).Take(2).ToList();
                     messModel.GPSByte = data.Skip(4).ToList();
                 }

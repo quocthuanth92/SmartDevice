@@ -25,11 +25,29 @@ namespace ProgramAnalysis.Gateway
             MessModelValue result = new MessModelValue();
             if (Helper.Helper.ByteListCompare(this.CommandType, ConstParam.CmdTypeOnOff))
             {
-
+                if (this.CommandType != null)
+                {
+                    result.CommandType = ConstParam.Type.OnOff.ToString();
+                }
+                if (this.Value != null)
+                {
+                    if (Helper.Helper.ByteListCompare(this.Value, ConstParam.On))
+                    {
+                        result.Value = 1;
+                    }
+                    else
+                    {
+                        result.Value = 0;
+                    }
+                }
             }
             else if (Helper.Helper.ByteListCompare(this.CommandType, ConstParam.CmdTypeAdjust))
             {
-
+                if (this.CommandType != null)
+                {
+                    result.CommandType = ConstParam.Type.Adjust.ToString();
+                }
+                //Chỉnh sửa ở đây
             }
             return result;
         }
@@ -74,8 +92,11 @@ namespace ProgramAnalysis.Gateway
         #endregion
 
         #region Type
-        //public static List<byte> On = new List<byte>() { 0x02, 0x00 };
-        //public static List<byte> Off = new List<byte>() { 0x02, 0x01 };
+        public enum Type
+        {
+            OnOff,
+            Adjust
+        }
         #endregion
 
         #region Value
