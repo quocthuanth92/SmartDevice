@@ -29,6 +29,8 @@ namespace ProgramAnalysis.Helper
         public static string LogPath = String.Empty;
         public static string PathImage = string.Empty;
         public static int NumDeliveryVehicles = 5;
+        public static int StoreTimeOut = Convert.ToInt32(ConfigurationSettings.AppSettings["StoreTimeOut"]);
+
 
         #region Enum
         public enum TypeData

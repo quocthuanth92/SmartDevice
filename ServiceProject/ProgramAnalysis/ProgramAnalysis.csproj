@@ -95,6 +95,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -208,8 +209,14 @@
     <Compile Include="Helper\Utility.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Context.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Context.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InfoImageMV.cs" />
+    <Compile Include="Models\ServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -1348,6 +1355,11 @@
     <Content Include="Content\themes\KAdmin\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\themes\KAdmin\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\themes\KAdmin\fonts\FontAwesome.otf" />
+    <Content Include="Models\Context.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Context.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\BuildPublish.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="MATLAB\AutoEvaluationData\RealImage_Sample-bk1.jpg" />
@@ -2592,6 +2604,14 @@
       <Project>{abd4e13c-1a47-4082-8d77-8f1e9312b1fa}</Project>
       <Name>ExifMetadata</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Models\Context.dbml.layout">
+      <DependentUpon>Context.dbml</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
