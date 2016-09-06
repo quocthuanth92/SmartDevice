@@ -1,5 +1,4 @@
-﻿using LocalAccountsApp.Gateway;
-using ProgramAnalysis.Gateway;
+﻿using ProgramAnalysis.Gateway;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -255,6 +254,38 @@ namespace ProgramAnalysis.Helper
             }
         }
 
+        public static bool ByteListCompare(List<byte> a1, List<byte> a2)
+        {
+            try
+            {
+                if (a1 != null && a2 != null)
+                {
+                    if (a1.Count == a2.Count)
+                    {
+                        for (int i = 0; i < a1.Count; i++)
+                            if (a1[i] != a2[i])
+                                return false;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+                
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CustomLog.LogError(ex);
+                return false;
+                throw;
+            }
+        }
+
         public static decimal ConvertLatitude(byte[] arrayData)
         {
             decimal result = 0;
@@ -320,7 +351,7 @@ namespace ProgramAnalysis.Helper
                 if (data[0] == 0x01)
                 {
                     messModel.CommandType = data.Skip(0).Take(2).ToList();
-                    messModel.Type = data.Skip(2).Take(2).ToList();
+                    messModel.Value = data.Skip(2).Take(2).ToList();
                     messModel.GPSByte = data.Skip(4).ToList();
                 }
             }

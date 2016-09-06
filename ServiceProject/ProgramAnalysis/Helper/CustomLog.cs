@@ -225,5 +225,33 @@ namespace ProgramAnalysis.Helper
                 }
             }
         }
+
+        public static void LogPing(string mess)
+        {
+            lock (locker)
+            {
+                try
+                {
+                    StringBuilder builder = new StringBuilder();
+                    builder
+                        .AppendLine("----------")
+                        .AppendLine(DateTime.Now.ToString())
+                        .AppendFormat("Message:\t{0}", mess)
+                        .AppendLine();
+
+                    string filePath = CustomLog.LogPath + "LogPing.txt";
+                    using (StreamWriter writer = File.AppendText(filePath))
+                    {
+                        writer.Write(builder.ToString());
+                        writer.Flush();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    CustomLog.LogError(ex);
+                    throw;
+                }
+            }
+        }
     }
 }
