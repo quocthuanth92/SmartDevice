@@ -15,7 +15,6 @@ namespace ProgramAnalysis
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
-        string clientID;
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

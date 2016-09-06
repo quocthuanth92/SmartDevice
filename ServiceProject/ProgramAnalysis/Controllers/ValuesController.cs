@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 
 namespace ProgramAnalysis.Controllers
@@ -43,10 +44,21 @@ namespace ProgramAnalysis.Controllers
         // POST api/values
         public void SetOnLight(MessModelValue value)
         {
-            if(value.CommandType == ConstParam.Type.OnOff.ToString())
+            if (Gateway.Gateway.client.IsConnected)
             {
-                byte[] ping = new byte[] { 0x03, 0x01, 0x01 };
-                this.client.Publish(ConstParam.PrefixTopic.Ping.ToString(), Encoding.UTF8.GetBytes("ping"));
+                if (value.CommandType == ConstParam.Type.OnOff.ToString())
+                {
+                    Gateway.Gateway.client.Publish(ConstParam.PrefixTopic.Action.ToString(), Encoding.UTF8.GetBytes("ping"));
+                }
+            }
+        }
+        // POST api/values
+        public void SetOffLight(MessModelValue value)
+        {
+            if (value.CommandType == ConstParam.Type.OnOff.ToString())
+            {
+                byte[] ping = new byte[] { 0x03, 0x01, 0x00 };
+                Gateway.Gateway.client.Publish(ConstParam.PrefixTopic.Action.ToString(), Encoding.UTF8.GetBytes("ping"));
             }
         }
         #endregion

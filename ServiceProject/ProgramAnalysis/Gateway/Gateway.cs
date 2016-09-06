@@ -14,8 +14,8 @@ namespace ProgramAnalysis.Gateway
 {
     public class Gateway
     {
-        public string clientID = "0000000AAAAAAAA";
-        public MqttClient client;
+        public string clientID = "0000000BBBBBBB";
+        public static MqttClient client;
         public Timer TimerTick;
         public void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
@@ -75,16 +75,16 @@ namespace ProgramAnalysis.Gateway
 
         public void ConfigConnect()
         {
-            this.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
-            this.client.Connect(clientID);
+            Gateway.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
+            Gateway.client.Connect(clientID);
             CustomLog.LogError("connect thanh cong");
             string[] topic = { "#", "Test/#" };
 
             byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE };
-            this.client.Subscribe(topic, qosLevels);
+            Gateway.client.Subscribe(topic, qosLevels);
 
-            this.client.MqttMsgPublishReceived += this.client_MqttMsgPublishReceived;
-            this.client.MqttMsgSubscribed += this.client_MqttMsgSubscribed;
+            Gateway.client.MqttMsgPublishReceived += this.client_MqttMsgPublishReceived;
+            Gateway.client.MqttMsgSubscribed += this.client_MqttMsgSubscribed;
             //gateway.client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
         }
 
@@ -104,10 +104,10 @@ namespace ProgramAnalysis.Gateway
         {
             try
             {
-                if (this.client.IsConnected)
+                if (Gateway.client.IsConnected)
                 {
                     byte[] ping = new byte[] { 0x03, 0x01, 0x01 };
-                    this.client.Publish(ConstParam.PrefixTopic.Ping.ToString(), Encoding.UTF8.GetBytes("ping"));
+                    Gateway.client.Publish(ConstParam.PrefixTopic.Ping.ToString(), Encoding.UTF8.GetBytes("ping"));
                 }
                 else
                 {
