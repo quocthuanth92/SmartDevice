@@ -28,8 +28,8 @@ namespace ProgramAnalysis
 
 
             #region Config
-            Gateway.Gateway gateway = new Gateway.Gateway();
-            gateway.ConfigConnect();
+            //Gateway.Gateway gateway = new Gateway.Gateway();
+            //gateway.ConfigConnect();
 
             //gateway.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
             //clientID = "0000000AAAAAAAA";
@@ -44,7 +44,7 @@ namespace ProgramAnalysis
             //gateway.client.MqttMsgSubscribed += gateway.client_MqttMsgSubscribed;
             //gateway.client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
 
-            gateway.TimerTick.Start();
+            //gateway.TimerTick.Start();
             #endregion
         }
     }
